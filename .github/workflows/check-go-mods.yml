@@ -35,7 +35,8 @@ jobs:
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add --force **/go.mod  # Force add modified files
-          git diff --cached --exit-code || git commit -m "Remove local dependencies from go.mod files"
+          git add --force **/go.mod **/go.sum  # Force add modified files
+          git diff --cached --exit-code || (git commit -m "Remove local dependencies from go.mod files" && git push)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-generated token for GitHub Actions
+      
