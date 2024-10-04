@@ -20,10 +20,13 @@ jobs:
       - name: Run Go Mod Check
         run: |
           set -e  # Exit on error
+          shopt -s globstar  # Enable globstar for recursive globbing
           for i in **/go.{mod,sum}; do \
-            echo "processing $$i"; \
-            awk '!/github\.com\/dev-monteiro-koho\/monteiro-test\/.*/ || /module/' $$i > gomod.tmp; \
-            mv gomod.tmp $$i; \
+            if [ -f "$$i" ]; then \  # Check if the file exists
+              echo "processing $$i"; \
+              awk '!/github\.com\/dev-monteiro-koho\/monteiro-test\/.*/ || /module/' $$i > gomod.tmp; \
+              mv gomod.tmp $$i; \
+            fi; \
           done
 
       - name: Commit Changes
