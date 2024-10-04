@@ -21,6 +21,6 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Data: %v\n", i)
+	fmt.Printf("Data but that's okay cause so are you: %v\n", i)
 	common.Main()
 }
