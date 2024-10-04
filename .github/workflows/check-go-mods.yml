@@ -1,11 +1,11 @@
-name: Check and Update Go Modules
+name: Clean Go Modules
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  check-go-mods:
+  clean-go-mods:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,25 +15,30 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: '1.20'  # or whatever Go version you are using
+          go-version: '1.20'  # or the version you are using
 
-      - name: Run Go Mod Check
+      - name: Remove Local Dependencies from Go Modules
         run: |
           set -e  # Exit on error
           shopt -s globstar  # Enable globstar for recursive globbing
-          for i in **/go.{mod,sum}; do \
+          for i in **/go.mod; do \
             if [ -f "$$i" ]; then \  # Check if the file exists
-              echo "processing $$i"; \
-              awk '!/github\.com\/dev-monteiro-koho\/monteiro-test\/.*/ || /module/' $$i > gomod.tmp; \
+              echo "Processing $$i"; \
+              # Remove any require lines that reference the local repo
+              awk '!/require github\.com\/dev-monteiro-koho\/monteiro-test\// || /module/' $$i > gomod.tmp; \
               mv gomod.tmp $$i; \
             fi; \
           done
+
+      - name: Check for Changes
+        run: |
+          git diff --exit-code || echo "Changes detected in go.mod files."
 
       - name: Commit Changes
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add **/go.{mod,sum}
-          git diff --cached --exit-code || git commit -m "Update go.mod and go.sum to remove local repository references"
+          git add --force **/go.mod  # Force add modified files
+          git diff --cached --exit-code || git commit -m "Remove local dependencies from go.mod files"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-generated token for GitHub Actions
