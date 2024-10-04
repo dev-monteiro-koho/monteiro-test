@@ -31,18 +31,26 @@ jobs:
         run: |
           git diff --exit-code || echo "Changes detected in go.mod files."
 
+      - name: Checkout PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.pull_request.number }}
+
       - name: Commit Changes
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add --force **/go.mod **/go.sum  # Force add modified files
           git diff --cached --exit-code || (
-            git commit -m "Remove local dependencies from go.mod files" &&
-            git push origin "${GITHUB_HEAD_REF}"
+            git commit -m "Remove local dependencies from go.mod files"
           )
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-generated token for GitHub Actions
-      
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git push
       
     
 
