@@ -25,7 +25,7 @@ jobs:
             if [ -f "$$i" ]; then \  # Check if the file exists
               echo "Processing $$i"; \
               # Remove any require lines that reference the local repo
-              awk '!/require github\.com\/dev-monteiro-koho\/monteiro-test\// || /module/' $$i > gomod.tmp; \
+              awk '/^require \(/{flag=1} /^\)/{flag=0} !/github\.com\/dev-monteiro-koho\/monteiro-test\// || !flag' $$i > gomod.tmp; \
               mv gomod.tmp $$i; \
             fi; \
           done
