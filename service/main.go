@@ -21,6 +21,6 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Data: %v\n", i)
+	fmt.Printf("Data for the record: %v\n", i)
 	common.Main()
 }
