@@ -1,0 +1,36 @@
+name: Check and Update Go Modules
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-go-mods:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'  # or whatever Go version you are using
+
+      - name: Run Go Mod Check
+        run: |
+          set -e  # Exit on error
+          for i in **/go.{mod,sum}; do \
+            echo "processing $$i"; \
+            awk '!/github\.com\/dev-monteiro-koho\/monteiro-test\/.*/ || /module/' $$i > gomod.tmp; \
+            mv gomod.tmp $$i; \
+          done
+
+      - name: Commit Changes
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add **/go.{mod,sum}
+          git diff --cached --exit-code || git commit -m "Update go.mod and go.sum to remove local repository references"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-generated token for GitHub Actions
