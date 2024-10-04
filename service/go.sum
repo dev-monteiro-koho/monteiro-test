@@ -1,5 +1,5 @@
-github.com/dev-monteiro-koho/monteiro-test/common v0.0.0-20241004194915-3f127e19edb9 h1:gMrh0Sz4RREweLbn/Rg4YVRX65ZB0NXuty/lg6buLLA=
-github.com/dev-monteiro-koho/monteiro-test/common v0.0.0-20241004194915-3f127e19edb9/go.mod h1:89EtqSeC6+vCMnKlkFbXYhulWg7+31wrMrwANIMAZ8E=
+github.com/dev-monteiro-koho/monteiro-test/common v0.0.0-20241004215122-dbd686eb3e81 h1:Mt2GOOx1GI/l4C0Q7aHrmrCfL8BX9WTkhboNBwvst4Y=
+github.com/dev-monteiro-koho/monteiro-test/common v0.0.0-20241004215122-dbd686eb3e81/go.mod h1:89EtqSeC6+vCMnKlkFbXYhulWg7+31wrMrwANIMAZ8E=
 github.com/go-faker/faker/v4 v4.5.0 h1:ARzAY2XoOL9tOUK+KSecUQzyXQsUaZHefjyF8x6YFHc=
 github.com/go-faker/faker/v4 v4.5.0/go.mod h1:p3oq1GRjG2PZ7yqeFFfQI20Xm61DoBDlCA8RiSyZ48M=
 golang.org/x/text v0.19.0 h1:kTxAhCbGbxhK0IwgSKiMO5awPoDQ0RpfiVYBfK860YM=
