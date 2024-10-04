@@ -4,9 +4,23 @@ import (
 	"fmt"
 
 	"github.com/dev-monteiro-koho/monteiro-test/common"
+	"github.com/go-faker/faker/v4"
 )
 
+type Info struct {
+	paramA string
+	paramB string
+	paramC string
+}
+
 func main() {
-	fmt.Println("Module service depends on module common")
+	var i Info
+	err := faker.FakeData(&i)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("Data: %v\n", i)
 	common.Main()
 }
