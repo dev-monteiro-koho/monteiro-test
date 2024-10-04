@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/dev-monteiro-koho/test/common"
+	"github.com/dev-monteiro-koho/monteiro-test/common"
 )
 
 func main() {
