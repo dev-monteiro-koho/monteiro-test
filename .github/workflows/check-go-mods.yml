@@ -38,10 +38,11 @@ jobs:
           git add --force **/go.mod **/go.sum  # Force add modified files
           git diff --cached --exit-code || (
             git commit -m "Remove local dependencies from go.mod files" &&
-            git push origin "${GITHUB_REF##*/}"
+            git push origin "${GITHUB_HEAD_REF}"
           )
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Auto-generated token for GitHub Actions
+      
       
     
 
