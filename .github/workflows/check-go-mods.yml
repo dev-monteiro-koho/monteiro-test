@@ -19,19 +19,12 @@ jobs:
 
       - name: Remove Local Dependencies from Go Modules
         run: |
-          set -e  # Exit on error
-          shopt -s globstar  # Enable globstar for recursive globbing
-          for i in **/go.mod; do \
-            if [ -f "$$i" ]; then \  # Check if the file exists
-              echo "Processing $$i"; \
-              # Remove any require lines that reference the local repo
-              awk '/^require \(/{flag=1} /^\)/{flag=0} !/github\.com\/dev-monteiro-koho\/monteiro-test\// || !flag' $$i > gomod.tmp; \
-              if ! cmp -s $$i gomod.tmp; then \
-                mv gomod.tmp $$i; \
-              else \
-                rm gomod.tmp; \
-              fi; \
-            fi; \
+          # Enable globstar for recursive globbing
+          shopt -s globstar
+          for i in **/go.{mod,sum}; do
+            echo "processing $i"
+            awk '!/github\.com\/dev-monteiro-koho\/monteiro-test\/.*/ || /module/' "$i" > gomod.tmp
+            mv gomod.tmp "$i"
           done
 
       - name: Check for Changes
