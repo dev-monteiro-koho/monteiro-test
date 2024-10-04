@@ -7,6 +7,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Module B depends on Module A")
+	fmt.Println("Module service depends on module common")
 	common.Main()
 }
